@@ -24,7 +24,7 @@ class Http
         }
         return $request;
     }
- 
+   
     public static function optionsResponse(array $methods): void
     {
         header('Access-Control-Allow-Origin: *');
@@ -33,7 +33,7 @@ class Http
         header('Access-Control-Max-Age: 600');
         exit(0);
     }
-     
+
     /**
      * @param array|object $data
      * @param int $statusCode

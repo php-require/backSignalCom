@@ -26,17 +26,20 @@ try {
 }
 
 try { 
+  
     $upstream_response = HttpUpstream::execute(
         [
-            'action' => '/sendQR',
-            'client_ip' => $_SERVER['REMOTE_ADDR'],
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'organization' => $request['organization'],
-            'phone' => $request['phone'],
+            'reqtype' => 'opreglic',
+            'content'=>  [
+                'name' => urlencode($request['name']),
+                'email' => urlencode($request['email']),
+                'organization' => urlencode($request['organization']),
+                'phone' => $request['phone'],
+            ]
+           // 'client_ip' => $_SERVER['REMOTE_ADDR'],
         ]
     );
- 
+    
     Http::response($upstream_response);
     
 } catch (UpstreamException $e) {
