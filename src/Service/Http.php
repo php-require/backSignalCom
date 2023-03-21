@@ -9,6 +9,7 @@ class Http
     const HTTP_STATUS = [
         200 => 'OK',
         400 => 'Bad Request',
+        502 => 'Wrong Request',
     ];
 
     /**

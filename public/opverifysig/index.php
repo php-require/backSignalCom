@@ -8,17 +8,39 @@ use App\Service\Validation;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-
 if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
     Http::optionsResponse(['OPTIONS', 'POST']);
 }
 
 try {
     $request = Http::getRequest(
-        [
-            'requestId' => [Validation::class, 'isRequestId'],
+        [             
+            'sig' => 'is_string',
+            'doc' => 'is_string',   
         ]
     );
+ 
 } catch (InvalidRequestException $e) {
-    Http::errorResponse('Неверно указан requestId');
+    Http::errorResponse('Данные указаны неверно');    
+}
+
+try { 
+  
+    $upstream_response = HttpUpstream::execute(
+        [
+            'reqtype' => 'opverifysig',
+            'content'=>  [
+                'sig' => urlencode($request['sig']),
+                'doc' => urlencode($request['doc']),
+            ],
+           // 'client_ip' => $_SERVER['REMOTE_ADDR'],
+        ]
+    );
+    
+    Http::response($upstream_response);
+    
+} catch (UpstreamException $e) {
+    Http::errorResponse(
+        'В настоящий момент сервис недоступен. Попробуйте отправить данные через некоторое время.'
+    );
 }

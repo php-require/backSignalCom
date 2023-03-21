@@ -18,6 +18,7 @@ try {
             'name' => [Validation::class, 'isFullName'],
             'email' => [Validation::class, 'isEmail'],
             'organization' => [Validation::class, 'isOrganization'],
+            'phone' => 'is_string',
         ]
     );
  
@@ -35,7 +36,7 @@ try {
                 'email' => urlencode($request['email']),
                 'organization' => urlencode($request['organization']),
                 'phone' => $request['phone'],
-            ]
+            ],
            // 'client_ip' => $_SERVER['REMOTE_ADDR'],
         ]
     );
